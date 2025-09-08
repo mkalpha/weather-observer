@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "rm -rf ./dist && tsc && node ./dist/server.js"
+    "serve": "rm -rf ./dist && tsc && node ./dist/app/server.js"
   },
   "keywords": [],
   "author": "",

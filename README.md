@@ -17,4 +17,5 @@ Build a Weather Dashboard web application that:
 - Add function annotations
 - Show location name
 - `UML` diagrams
-- deploy to Railway
+- Deploy to Railway
+- Tests
