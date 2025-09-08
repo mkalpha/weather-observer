@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Observer</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    section { margin-bottom: 2rem; }
+    h2 { margin-bottom: 0.5rem; }
+    #current-weather, #historic-weather { border: 1px solid #ccc; padding: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <section>
+    <h2>Current Weather</h2>
+    <div id="current-weather"></div>
+  </section>
+  <section>
+    <h2>Historic Weather</h2>
+    <div id="historic-weather"></div>
+  </section>
+  <script type="module">
+  import { getWeatherDataHandler } from './dist/src/handlers/get-weather-data.handler.js';
+  import { CurrentWeatherWidget } from './dist/src/observers/current-weather.widget.js';
+  import { HistoricWeatherWidget } from './dist/src/observers/historic-weather.widget.js';
+  import WeatherStore from './dist/src/subject/weather-store.js';
+
+    let latitude = '40.7128'; // Example: New York City
+    let longitude = '-74.0060';
+
+    navigator.geolocation.getCurrentPosition(
+  (position) => {
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    console.log('Latitude:', latitude, 'Longitude:', longitude);
+  },
+  (error) => {
+    console.error('Error getting location:', error);
+  }
+);
+
+    const currentWeatherDiv = document.getElementById('current-weather');
+    const historicWeatherDiv = document.getElementById('historic-weather');
+
+  const currentWidget = new CurrentWeatherWidget('current-weather');
+  const historicWidget = new HistoricWeatherWidget('historic-weather');
+
+    async function fetchAndRenderWeather() {
+      await getWeatherDataHandler(latitude, longitude);
+    }
+
+    // Initial fetch and render
+    fetchAndRenderWeather();
+    // Update every minute
+    setInterval(fetchAndRenderWeather, 60000);
+  </script>
+</body>
+</html>
